@@ -1,0 +1,18 @@
+.Form {
+    padding: 20px 0;
+    margin-bottom: 50px;
+}
+
+.Form select {
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: .2rem;
+    border-style: solid;
+    border-color: black;
+}
+
+section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;   
+}

@@ -6,62 +6,39 @@ import './App.css';
 import { API } from './AppConstants';
 
 // Components
-import { InputBusqueda } from './Components/InputBusqueda';
-import { ListaCrypto } from './Components/ListaCrypto';
+import { CryptoRender } from './Components/CryptoRender/CryptoRender';
+import { LoadButton } from './Components/LoadButton/LoadButton';
 
 export const App = () => {
   const [CryptoCurrencys, setCryptoCurrencys] = useState([]);
-  const [Resultados, setResultados] = useState(0);
+  const [Results, setResults] = useState(0);
   const [SumCap, setSumCap] = useState(0);
-  const [Busqueda, setBusqueda] = useState('');
-  const [CryptoList, setCryptoList] = useState([]);
 
   useEffect(() => {
-    fetch(API).then((results) => results.json().then(elements => {
+    const FIRST_PAGE = 1;
+    fetch(API+FIRST_PAGE).then((results) => results.json().then(elements => {
       setCryptoCurrencys([...elements]);
     }));
   }, []);
 
-  useEffect(() => {
-    if (CryptoCurrencys) {
-      if (Busqueda) {
-        setCryptoList(CryptoCurrencys.filter(crypto => crypto.name.toLowerCase().includes(
-          Busqueda
-        )));
-      } else {
-        setCryptoList([...CryptoCurrencys]);
-      }
-    }
-  }, [CryptoCurrencys, setCryptoList, Busqueda]);
-
-  useEffect(() => {
-    if (CryptoList) {
-      let sumCap = 0;
-      sumCap = CryptoList.reduce((sum, current) => {
-        return sum += current.current_price;
-      }, 0);
-      setResultados(CryptoList.length);
-      setSumCap(parseFloat(sumCap).toFixed(2));
-    }
-  }, [CryptoList]);
-
   return (
     <div className="App">
       <div className="Main">
-        <h1>CryptoCurrency OS <i className="fa-solid fa-rotate" id="more"></i></h1>
-        <div className="Form">
-          <InputBusqueda Busqueda={Busqueda} setBusqueda={setBusqueda} />
-          <label id="results">Results: {Resultados}</label>
+        <h1>CryptoCurrency OS
+          <LoadButton
+          Cryptos={CryptoCurrencys}
+          setCryptos={setCryptoCurrencys} />
+        </h1>
+        <div className="Header">
+          <hr />
+          <label id="results">Results: {Results}</label>
           <label id="market_cap">Sum Market Cap: $ {SumCap}</label>
         </div>
-        <div id="app">
-          <section className="Items">
-            <ListaCrypto lista={CryptoList} />
-          </section>
-        </div>
+        <CryptoRender
+          CryptoCurrencys={CryptoCurrencys}
+          setResults={setResults}
+          setSumCap={setSumCap} />
       </div>
     </div>
   );
 };
-
-export default App;

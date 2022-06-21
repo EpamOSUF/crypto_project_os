@@ -1,0 +1,30 @@
+.inputComponent {
+    position: relative;
+}
+
+input {
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: .1rem;
+    border-style: solid;
+    border-color: black;
+    margin-bottom: 10px;
+}
+
+input:placeholder-shown+button {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.inputComponent button {
+    position: absolute;
+    border-radius: 5px;
+    right: 5px;
+    z-index: 0;
+    border: none;
+    top: 17px;
+    height: 30px;
+    cursor: pointer;
+    background-color: transparent;
+    transform: translateX(2px);
+}
